@@ -1,0 +1,5 @@
+{"email":"rohit@gmail.com","password":"ro@47"}
+{"email":"cisco@gmail.com","password":"cisco@123"}
+{"email":"kanagashanmugam@gmail.com","password":"kanaga@123"}
+{"email":"cisco123@gmail.com","password":"12"}
+{"email":"cisco356@gmail.com","password":"$2a$12$SBQv86pTXbfCKHqVjeEi9uphdGdgK5fqLFCUcfkikRVF/8npB96Hm"}
