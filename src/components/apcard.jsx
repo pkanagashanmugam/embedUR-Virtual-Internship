@@ -10,10 +10,10 @@ function Apcard(props) {
         <p style={styles.content}>{props.health}</p>
       </div>
       <div style={styles.cardFooter}>
-        {/* <button style={styles.button} onClick={() => props.onUpdate(props.parameter)}>Update Device Status</button>
+        <button style={styles.button} onClick={() => props.onUpdate(props.parameter)}>Update Device Status</button>
         <br />
-        <button style={styles.button}>Delete Device Status</button> */}
-        <button style={styles.button}>Read More</button>
+        <button style={styles.button} onClick={() => props.onDelete(props.parameter)}>Delete Device Status</button>
+        {/* <button style={styles.button}>Read More</button> */}
       </div>
     </div>
   );

@@ -15,18 +15,29 @@ function Landing() {
         }
       };
     
-    // const handleUpdate = async(param)=>{
-    //     const newCount = prompt("Enter new count : ");
-    //     const newHealth = prompt("Enter new health : ");
+    const handleUpdate = async(parameter)=>{
+        const newCount = prompt("Enter new count : ");
+        const newHealth = prompt("Enter new health : ");
 
-    //     try {
-    //         const response = await axios.post('http://localhost:4568/devicedet/$param', { parameter:parameter, count: count, health:health });
-    //         fetchDevices();
-    //     } catch (err) {
-    //         console.error(err);
-    //     }
+        if (newCount || newHealth){
+            try {
+                const response = await axios.put(`http://localhost:4568/devicedet/${parameter}`, { count: newCount, health: newHealth });
+                fetchDevices();
+            } catch (err) {
+                console.error(err);
+            }
+        }
 
-    // }
+    }
+
+    const handleDelete = async(parameter)=>{
+        try {
+            const response = await axios.delete(`http://localhost:4568/devicedet/${parameter}`);
+            fetchDevices();
+        } catch (err) {
+            console.error(err);
+        }
+    }
     
     const handleSubmission = async(e) =>{
         e.preventDefault();
@@ -55,7 +66,7 @@ function Landing() {
             <div style={styles.formcontainer}>
                 <form onSubmit={handleSubmission}>
                     <div class="row">
-                        <div class="col-3">
+                        <div className="col-3">
                             <input type="text" class="form-control" name="dev_par" placeholder="Device Parameter" required/>
                         </div>
                         <div class="col-3">
@@ -82,6 +93,8 @@ function Landing() {
                     parameter={device.parameter}
                     count={device.count}
                     health={device.health}
+                    onUpdate={handleUpdate}
+                    onDelete={handleDelete}
                   />
                 ))}
             </div>
