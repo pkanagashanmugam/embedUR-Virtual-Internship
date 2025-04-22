@@ -14,7 +14,20 @@ function Landing() {
           console.error("Error fetching devices:", err);
         }
       };
+    
+    // const handleUpdate = async(param)=>{
+    //     const newCount = prompt("Enter new count : ");
+    //     const newHealth = prompt("Enter new health : ");
 
+    //     try {
+    //         const response = await axios.post('http://localhost:4568/devicedet/$param', { parameter:parameter, count: count, health:health });
+    //         fetchDevices();
+    //     } catch (err) {
+    //         console.error(err);
+    //     }
+
+    // }
+    
     const handleSubmission = async(e) =>{
         e.preventDefault();
         const parameter = e.target.dev_par.value;

@@ -10,6 +10,9 @@ function Apcard(props) {
         <p style={styles.content}>{props.health}</p>
       </div>
       <div style={styles.cardFooter}>
+        {/* <button style={styles.button} onClick={() => props.onUpdate(props.parameter)}>Update Device Status</button>
+        <br />
+        <button style={styles.button}>Delete Device Status</button> */}
         <button style={styles.button}>Read More</button>
       </div>
     </div>
@@ -41,8 +44,9 @@ const styles = {
     color: '#666',
   },
   cardFooter: {
+    display: 'grid',
     padding: '5px 10px',
-    backgroundColor: 'rgba(255, 255, 255, 0.58)',
+    backgroundColor: 'rgba(250, 181, 181, 0.58)',
     textAlign: 'center',
   },
   button: {
