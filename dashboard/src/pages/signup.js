@@ -1,0 +1,43 @@
+import { Link } from "react-router-dom";
+import Header from "../components/header";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+function Signup(){
+    const navigate=useNavigate()
+        const handleSubmit = async(e) =>{
+            e.preventDefault();
+            const email=e.target.email.value;
+            const password=e.target.password.value;
+            try{
+                const res=await axios.post("http://localhost:4500/signup",{email:email,password:password})
+                alert(res.data.message);
+                if(res.data.code === 200){
+                    //Encryption
+                    navigate("/login");
+                }
+            }catch (err){
+                console.log(err);
+            }
+    };
+    return(
+        <div>
+            <Header />
+            <div style={{height: '500px',width: '300px',marginTop: '50px',marginLeft: '600px',alignItems:'center',alignContent: 'center'}}>
+                <center><h2 className="text-primary">SIGN UP</h2></center><br />
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label>Enter your Email</label><br/> <br/>
+                        <input type="email" className="form-control" name="email" placeholder="Enter your Email" required/> <br/> 
+                        <label>Enter your Password</label><br/> <br/>
+                        <input type="password" className="form-control" name="password" placeholder="Enter your Password" required/><br />
+                        <center><button type="submit" className="btn btn-primary">Sign Up</button></center><br />
+                        <center><Link to="/login">Already have an Account?</Link></center>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
+}
+
+export default Signup;
