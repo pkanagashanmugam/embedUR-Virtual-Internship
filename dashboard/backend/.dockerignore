@@ -1,0 +1,14 @@
+# Ruby stuff
+log
+tmp
+*.log
+
+# Bundler
+.bundle
+vendor/bundle
+
+# misc
+.env
+.DS_Store
+.git
+.gitignore

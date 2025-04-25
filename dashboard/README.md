@@ -53,3 +53,61 @@ The backend consisting of ruby code and spec file is organised into the folder n
 
     **_References :_**
     - [Documentation](https://www.postgresql.org/docs/16/index.html)
+
+## DOCKER :
+The web app is containerized using docker. For this purpose, a dockerfile is written seperately for frontend and backend in their respective folders. A docker-compose.yaml file is written in the root directory which manages multiple containers used. The docker-compose.yaml file is used to mention the services, their dependencies, the ports that they run on and other information about the environment needed to run the container. 
+
+In order to run docker, following commands needs to be executed in order:
+```
+$ docker compose build
+$ docker compose up
+$ docker compose down 
+```
+**_References :_**
+- [Containerizing the Front End](https://www.docker.com/blog/how-to-dockerize-react-app/)
+- [Containerizing the Back End](https://hub.docker.com/_/ruby)
+- [Containerizing the Database Using Docker Compose](https://medium.com/@agusmahari/docker-how-to-install-postgresql-using-docker-compose-d646c793f216)
+
+The status of a container(s) can be viewed using the command `docker compose ps`.
+
+## MAKEFILE :
+Makefile, widely used in C programs and Linux Driver Develpoment, is a tool used to automate software building procedure and its deployment.
+
+Assuming that the MAKEFILE and docker-compose.yaml are located in the root directory of the project, the following commands can be used to run the docker file using minimal commands.
+
+```
+$ make 
+(or) 
+$ make all
+```
+Either command works are the target need not be specified for the default target(mentioned first in the makefile).This command builds and runs the containers available in docker-compose.yaml file
+
+
+```
+$ make build
+ ```
+This command builds containers available in docker-compose.yaml file
+
+
+```
+$ make run
+``` 
+This command runs the containers that has been builded.
+
+
+```
+$ make kill
+``` 
+This command stops the containers that are actively running.
+
+
+```
+$ make restart
+``` 
+This command restarts the containers that are actively running. This command is ideally used when application has been changed, and the containers need to be build according to the changed version.This command kills the containers, re-builds them and starts them again
+
+
+```
+$ make status
+``` 
+This command is used to check the status of the containers providing information about Container ID, Image, Services, Timestamp, Status and the Ports it is running on.
