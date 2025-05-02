@@ -9,6 +9,9 @@ import { createBrowserRouter,RouterProvider } from 'react-router-dom';
 import Login from './pages/login';
 import Signup from './pages/signup';
 import Landing from './pages/landing';
+import About from './pages/about';
+import Admin from './pages/admin';
+// import {Admin,About,Landing,Signup,Login} from './pages/';
 
 // Establishes routes to all the pages
 const router=createBrowserRouter([
@@ -28,6 +31,14 @@ const router=createBrowserRouter([
     path: "/landing",
     element: <Landing />
   },
+  {
+    path: "/about",
+    element: <About />
+  },
+  {
+    path: "/admin",
+    element: <Admin />
+  }
 ])
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

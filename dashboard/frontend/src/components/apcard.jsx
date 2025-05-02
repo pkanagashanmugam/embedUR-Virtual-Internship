@@ -8,8 +8,8 @@ function Apcard(props){
                 <div className="card-title">Health Status : {props.health}</div>
             </div>
             <div className="card-footer">
-                <button className={`btn text-white bg-${props.type}`} onClick={() => props.onUpdate(props)}>Update Device</button>
-                <button className={`btn text-white bg-${props.type}`} onClick={() => props.onDelete(props)}>Delete Device</button>
+                <button className={`btn text-white bg-${props.type} m-3`} onClick={() => props.onUpdate(props)}>Update Device</button>
+                <button className={`btn text-white bg-${props.type} m-3`} onClick={() => props.onDelete(props)}>Delete Device</button>
             </div>
         </div>
     );

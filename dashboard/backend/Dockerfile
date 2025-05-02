@@ -13,8 +13,9 @@ EXPOSE 4500
 CMD ["ruby", "app.rb", "-p", "4500"]
 
 
+#IMAGE OPTIMIZATION
 
-# FROM ruby:3.1.2
+# FROM ruby:3.4.3-alpine
 
 # WORKDIR /app
 

@@ -10,29 +10,26 @@ function Signup(){
     encrypt.setPublicKey(public_key);
     console.log("Public key",public_key);
     const navigate=useNavigate()
-        const handleSubmit = async(e) =>{
-            e.preventDefault();
-            const email=e.target.email.value;
-            const password=encrypt.encrypt(e.target.password.value);
-            console.log("Form Password : ",e.target.password.value);
-            console.log("Encrpyted Password : ",password);
-            try{
-                const res=await axios.post("http://localhost:4500/signup",{email:email,password:password})
-                // const res=await axios.post("http://backend:4500/signup",{email:email,password:password})
-                // const res=await axios.post(`${process.env.REACT_APP_API_URL}/get_public_key`,{email:email,password:password})
-                alert(res.data.message);
-                if(res.data.code === 200){
-                    //Encryption
-                    navigate("/login");
-                }
-            }catch (err){
-                console.log(err);
+    const handleSubmit = async(e) =>{
+        e.preventDefault();
+        const email=e.target.email.value;
+        const password=encrypt.encrypt(e.target.password.value);
+        console.log("Form Password : ",e.target.password.value);
+        console.log("Encrpyted Password : ",password);
+        try{
+            const res=await axios.post("http://localhost:4500/signup",{email:email,password:password})
+            alert(res.data.message);
+            if(res.data.code === 200){
+                navigate("/login");
             }
+        }catch (err){
+            console.log(err);
+        }
     };
     return(
         <div>
             <Header />
-            <div style={{height: '500px',width: '300px',marginTop: '50px',marginLeft: '600px',alignItems:'center',alignContent: 'center'}}>
+            <div style={{height: '500px',width: '300px',marginTop: '50px',marginLeft: '600px',alignContent: 'center'}}>
                 <center><h2 className="text-primary">SIGN UP</h2></center><br />
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">

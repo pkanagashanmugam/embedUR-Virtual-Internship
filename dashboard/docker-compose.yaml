@@ -3,7 +3,7 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "3000:3000"
+      - "3000:80" # "3000:3000"
     depends_on:
       - backend
   
@@ -32,48 +32,3 @@ services:
       - pgdata:/var/lib/postgresql/data
 volumes:
   pgdata:
-
-# #NGINX
-
-# version: '3.8'
-# services:
-#   frontend:
-#     build: ./frontend
-#     ports:
-#       - "3000:80"  # Assuming Nginx is serving on port 80
-#     depends_on:
-#       - backend
-#     volumes:
-#       - ./frontend:/app
-#     environment:
-#       - REACT_APP_API_URL=http://backend:4500  # Optional: Pass API URL to frontend
-
-#   backend:
-#     build: ./backend
-#     ports:
-#       - "4500:4500"
-#     environment:
-#       DB_HOST: db
-#       DB_PORT: 5432
-#       DB_NAME: dashboard_task
-#       DB_USER: postgres
-#       DB_PASSWORD: admin123
-#     depends_on:
-#       - db
-#     volumes:
-#       - ./backend:/app
-
-#   db:
-#     image: postgres:16.8
-#     restart: always
-#     ports:
-#       - "5432:5432"
-#     environment:
-#       POSTGRES_DB: dashboard_task
-#       POSTGRES_USER: postgres
-#       POSTGRES_PASSWORD: admin123
-#     volumes:
-#       - pgdata:/var/lib/postgresql/data
-
-# volumes:
-#   pgdata:

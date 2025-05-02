@@ -18,13 +18,19 @@ function Login(){
 
         try{
             const res=await axios.post("http://localhost:4500/login",{email:email,password:password})
-            // const res=await axios.post("http://backend:4500/login",{email:email,password:password})
-            // const res=await axios.post(`${process.env.REACT_APP_API_URL}/get_public_key`,{email:email,password:password})
             console.log("Login Response from server",res);
             alert(res.data.message);
-            if(res.data.code === 200){
-                //Encryption
-                navigate("/landing",{state:{user_id:res.data.user_id}});
+            if(res.data.user_id !=3){
+                if(res.data.code === 200){
+                    navigate("/landing"); //,{state:{user_id:res.data.user_id}}
+                    localStorage.setItem("user_id", res.data.user_id);
+                }
+                else if(res.data.code === 303){
+                    navigate("/landing"); //,{state:{user_id:res.data.user_id}}
+                }
+            }
+            else if(res.data.code === 200 && res.data.user_id ==3){
+                navigate("/admin"); //,{state:{user_id:res.data.user_id}});
                 localStorage.setItem("user_id", res.data.user_id);
             }
         }catch (err){

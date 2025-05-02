@@ -43,7 +43,7 @@ end
 #POSTGRESQL Connection Establishment
 begin
     conn = PG.connect(
-        host: ENV["DB_HOST"] ,
+      host: ENV["DB_HOST"] ,
       dbname: ENV["DB_NAME"] ,
       port: ENV["DB_PORT"] ,
       user: ENV["DB_USER"] ,
@@ -77,7 +77,7 @@ begin
         user_id int,
         header varchar(50),
         count varchar(50),
-        health varchar(50),
+        health varchar(50)
       );
     SQL
     
@@ -85,6 +85,8 @@ begin
 rescue PG::Error => e
     puts "Error while creating tables : #{e.message}"
 end
+
+
 post '/login' do
     headers 'Access-Control-Allow-Origin' => '*'
     begin
@@ -100,19 +102,25 @@ post '/login' do
       result = conn.exec_params("SELECT * FROM users WHERE email = $1", [email])
   
       if result.ntuples == 0
-        halt 401, { message: "User not found..Try Signing Up" }.to_json
+        { message: "User not found..Try Signing Up",code:401 }.to_json
       end
   
       user = result[0]
   
       if BCrypt::Password.new(user['pass'].to_s) == password
-        { message: "Login successful", user_id: user["user_id"],code:200 }.to_json
+        session_retrieve = conn.exec_params("SELECT * FROM SESSIONS where user_id=$1", [user["user_id"]])
+        if session_retrieve.ntuples==0
+          session_result = conn.exec_params("INSERT INTO SESSIONS(USER_ID,LOGGED_IN) VALUES ($1,$2)", [user["user_id"],"true"])
+          { message: "Login successful", user_id: user["user_id"],code:200 }.to_json
+        else
+          {message: "User is Already Logged in! Continue Browsing",code:303}.to_json
+        end
       else
-        halt 401, { message: "Invalid password..Try Again!!" }.to_json
+        { message: "Invalid password..Try Again!!",code:401 }.to_json
       end
     rescue => e
       puts "Login error: #{e.message}"
-      halt 500, { error: "Internal server error", detail: e.message }.to_json
+      { message: "User not found..Try Signing Up", error: "Internal server error", detail: e.message }.to_json
     end
 end
   
@@ -130,7 +138,7 @@ post '/signup' do
     #Parsing and decrypting the password sent by user 
     data=JSON.parse(request.body.read)
     puts "DATA FROM FRONT END : "+data.to_s
-    private_key = OpenSSL::PKey::RSA.new(File.read('private.pem'))
+    #private_key = OpenSSL::PKey::RSA.new(File.read('private.pem'))
     decrypted_password = PRIVATE_KEY.private_decrypt(Base64.decode64(data['password']))
     puts "LOGGING DECRYPTED PASSWORD : "+decrypted_password
     
@@ -161,7 +169,11 @@ end
 #API handling device retrieval
 get '/device/:user_id' do
     user_id=params['user_id'].to_i
-    result=conn.exec_params("SELECT * FROM DEVICES WHERE user_id=$1",[user_id])
+    if user_id == 3
+      result=conn.exec_params("SELECT * FROM DEVICES")
+    else
+      result=conn.exec_params("SELECT * FROM DEVICES WHERE user_id=$1",[user_id])
+    end
     result.to_a.to_json
 end
 
@@ -169,7 +181,7 @@ end
 put '/device/:user_id' do
     user_id=params['user_id'].to_i
     data=JSON.parse(request.body.read)
-    puts "UPDATE: user id : "+user_id.to_s+" data: "+data.to_s
+
     #Updates count and health of device identifying them by user id, device header and old count of the device
     result = conn.exec_params(
         "UPDATE DEVICES SET count=$4, health=$5 WHERE user_id=$1 AND header=$2 AND count=$3",[user_id, data['header'], data['oldcount'], data['count'], data['health']]
@@ -181,7 +193,7 @@ end
 delete '/device/:user_id' do
     user_id=params['user_id'].to_i
     data=JSON.parse(request.body.read)
-    puts "DELETE: user id : "+user_id.to_s+" data: "+data.to_s
+
     #Deletes device identifying them by all the fields 
     result = conn.exec_params(
         "DELETE FROM DEVICES WHERE user_id=$1 AND header=$2 AND count=$3 AND health=$4",[user_id, data['header'], data['count'], data['health']]

@@ -1,17 +1,18 @@
-import { useCallback } from "react";
 import Header from "../components/header";
 import { Apcard } from "../components/apcard";
-import { useState,useEffect } from "react";
+import { useState,useEffect,useCallback } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 
 function Landing(){
     const [devices,setDevices]=useState([]);
 
     // Variable used to identify currently logged user by using user_id
-    const location=useLocation();
-    const user_id=location.state?.user_id;    
+    // const location=useLocation();
+    // const user_id=location.state?.user_id;    
     
+    const user_id=localStorage.getItem("user_id");
+
     // Function that uses API call to retrieve devices of current user 
     const fetchDevices = useCallback(async () => {
         try {
@@ -48,7 +49,6 @@ function Landing(){
         const count=prompt("Enter New Count:");
         const health=prompt("Enter New Health");
         try{
-            // await axios.put(`http://localhost:4500/device/${user_id}`,{header:header,count:count,health:health})
             await axios.put(`http://localhost:4500/device/${user_id}`,{header:header,oldcount:oldcount,count:count,health:health})
             fetchDevices();
         }catch (err){
@@ -75,7 +75,7 @@ function Landing(){
             <br />
             <h2 style={{marginLeft: '50px'}}>Device Details</h2>
             <form onSubmit={handleSubmit}>
-                <div className="row" style={{marginLeft: '50px'}}> 
+                <div className="row" style={{marginLeft: '50px',marginTop:'10px'}}> 
                     <div className="col-3"><input className="form-control mb-3" name="header" placeholder="Enter Device Header" style={{marginTop:'10px'}} required/></div>
                     <div className="col-3"><input className="form-control mb-3" name="count" placeholder="Enter Device Count" style={{marginTop:'10px'}} required/></div>
                     <div className="col-3"><input className="form-control mb-3" name="health" placeholder="Enter Device Health" style={{marginTop:'10px'}} required/></div>
